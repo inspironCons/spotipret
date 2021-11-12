@@ -14,12 +14,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+import java.lang.RuntimeException
 
 class MainViewModelShould:BaseUnitTest() {
 
     private val repository: PlaylistRepository = mock()
     private val playlistMock = mock<List<Playlist>>()
     private val expectedPlaylist = Result.success(playlistMock)
+
+    private val exceptionError = RuntimeException("Something error for testing")
 
 
     @ExperimentalCoroutinesApi
@@ -28,6 +31,18 @@ class MainViewModelShould:BaseUnitTest() {
             whenever(repository.getPlaylistsFromNetwork()).thenReturn(
                 flow {
                     emit(expectedPlaylist)
+                }
+            )
+        }
+        return MainViewModel(repository)
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun mockFailureCase(): MainViewModel {
+        runBlockingTest {
+            whenever(repository.getPlaylistsFromNetwork()).thenReturn(
+                flow {
+                    emit(Result.failure<List<Playlist>>(exceptionError))
                 }
             )
         }
@@ -48,5 +63,13 @@ class MainViewModelShould:BaseUnitTest() {
         val viewModel = mockSuccessfulCase()
         viewModel.requestPlaylist()
         assertEquals(expectedPlaylist,viewModel.getPlaylist().getValueForTest())
+    }
+
+    @Test
+    fun returnErrorWhenReceiveError() {
+        val viewModel = mockFailureCase()
+        viewModel.requestPlaylist()
+        assertEquals(exceptionError,viewModel.getPlaylist().getValueForTest()?.exceptionOrNull())
+
     }
 }
