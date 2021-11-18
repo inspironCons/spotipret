@@ -9,10 +9,10 @@ import com.playground.spotipret.repository.PlaylistRepository
 import com.playground.spotipret.ui.playlist.MainViewModel
 import com.playground.spotipret.utils.BaseUnitTest
 import com.playground.spotipret.utils.getValueForTest
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.lang.RuntimeException
 

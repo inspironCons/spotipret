@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.playground.spotipret.common.ServicesBuilder
 import com.playground.spotipret.databinding.ActivityMainBinding
+import com.playground.spotipret.network.playlist.IPlaylist
 import com.playground.spotipret.repository.PlaylistRepository
 import com.playground.spotipret.utils.ViewModelFactory
 
@@ -13,7 +15,8 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding
     private lateinit var viewModel: MainViewModel
-    private val repository = PlaylistRepository()
+    private val service = ServicesBuilder.builderService(IPlaylist::class.java)
+    private val repository = PlaylistRepository(service)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -21,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = obtainViewModel(repository)
         val actionbar = supportActionBar
         actionbar?.title = "Playlist"
-
+        //call api
+        viewModel.requestPlaylist()
         generatePlaylist()
     }
 

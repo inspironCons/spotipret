@@ -1,7 +1,9 @@
 package com.playground.spotipret.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Playlist (
-    val id:String,
-    val name:String,
-    val category:String
+    @SerializedName("id") val id:String,
+    @SerializedName("name") val name:String,
+    @SerializedName("category") val category:String
 )
