@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private val service = ServicesBuilder.builderService(IPlaylist::class.java)
     private val repository = PlaylistRepository(service)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
