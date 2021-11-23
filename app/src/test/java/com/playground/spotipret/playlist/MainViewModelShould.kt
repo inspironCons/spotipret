@@ -8,6 +8,7 @@ import com.playground.spotipret.model.Playlist
 import com.playground.spotipret.repository.PlaylistRepository
 import com.playground.spotipret.ui.playlist.MainViewModel
 import com.playground.spotipret.utils.BaseUnitTest
+import com.playground.spotipret.utils.captureValues
 import com.playground.spotipret.utils.getValueForTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -70,6 +71,16 @@ class MainViewModelShould:BaseUnitTest() {
         val viewModel = mockFailureCase()
         viewModel.requestPlaylist()
         assertEquals(exceptionError,viewModel.getPlaylist().getValueForTest()?.exceptionOrNull())
+    }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun showProgressBarWhileLoading() = runBlockingTest{
+        val viewModel = mockSuccessfulCase()
+
+        viewModel.spinnerShow().captureValues {
+            viewModel.requestPlaylist()
+            assertEquals(true,values[0])
+        }
     }
 }

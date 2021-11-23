@@ -5,9 +5,10 @@ import com.playground.spotipret.network.playlist.IPlaylist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 
-class PlaylistRepository(
+class PlaylistRepository @Inject constructor(
     private val service: IPlaylist
 ) {
 

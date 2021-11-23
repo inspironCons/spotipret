@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.adevinta.android.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
 import com.adevinta.android.barista.assertion.BaristaListAssertions.assertDrawableDisplayedAtPosition
 import com.adevinta.android.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.rule.BaristaRule
 import com.playground.spotipret.ui.playlist.MainActivity
 import org.junit.Rule
@@ -26,5 +27,11 @@ class PlaylistFeature {
         assertDisplayedAtPosition(R.id.rv_playlist,0,R.id.tv_category_playlist,"rock")
         assertDrawableDisplayedAtPosition(R.id.rv_playlist,0,R.id.iv_playlist,R.drawable.ic_playlist)
 
+    }
+
+    @Test
+    fun displayLoaderWhileFetchingThePlaylists(){
+        mActivityRule.launchActivity()
+        assertDisplayed(R.id.pg_loader)
     }
 }

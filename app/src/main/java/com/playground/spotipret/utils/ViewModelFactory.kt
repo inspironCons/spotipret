@@ -4,31 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.playground.spotipret.repository.PlaylistRepository
 import com.playground.spotipret.ui.playlist.MainViewModel
-import java.lang.IllegalArgumentException
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class ViewModelFactory private constructor(
-    private val any:Any
+
+class ViewModelFactory @Inject constructor(
+    private val repo: PlaylistRepository
 ):ViewModelProvider.NewInstanceFactory() {
-
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(MainViewModel::class.java)){
-            return MainViewModel(any as PlaylistRepository) as T
+            return MainViewModel(repo) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
-    }
-
-    companion object{
-        @Volatile
-        private var INSTANCE:ViewModelFactory? = null
-
-        @JvmStatic
-        fun getInstance(any: Any):ViewModelFactory{
-            if(INSTANCE == null){
-                synchronized(ViewModelFactory::class.java){
-                    INSTANCE = ViewModelFactory(any)
-                }
-            }
-            return INSTANCE as ViewModelFactory
-        }
     }
 }
